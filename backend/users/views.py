@@ -46,7 +46,7 @@ class LoginAPIView(APIView):
 
     @extend_schema(
         request=LoginSerializer,
-        responses={200, ProfileSerializer},
+        responses={200: ProfileSerializer},
         description="Авторизация пользователя по email и паролю. Возвращает token.",
     )
     def post(self, request):

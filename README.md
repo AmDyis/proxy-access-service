@@ -1055,18 +1055,87 @@ ConnectionSession status=disconnected
 
 ---
 
-## Скриншоты для сдачи
+## Демонстрация работы
 
-```text
-1. Swagger со списком endpoints
-2. Страница регистрации
-3. Страница входа
-4. Личный кабинет с activation key
-5. Desktop-приложение после подключения
-6. Личный кабинет с active_proxy
-7. Django Admin → VirtualMachine
-8. Django Admin → ConnectionSession
-9. Результат тестов: 21 passed
-```
+Ниже приведены скриншоты основных сценариев работы сервиса.
+
+### 1. Запуск проекта в Docker
+
+Проект запускается через Docker Compose. После запуска поднимаются контейнеры backend, frontend, PostgreSQL, Redis и Celery worker.
+
+![Docker containers](screenshots/docker_container.png)
+
+### 2. Документация API
+
+API автоматически документируется через Swagger. В документации доступны основные эндпоинты регистрации, авторизации, профиля, обновления ключа, активации ключа и отключения от прокси.
+
+![Swagger API docs](screenshots/swagger_api_docs.png)
+
+
+### 3. Регистрация пользователя
+
+Пользователь может зарегистрироваться через веб-интерфейс, указав email, пароль и подтверждение пароля.
+
+![Register form](screenshots/frontend_register_form.png)
+
+После успешной регистрации система сообщает, что ключ активации отправлен на почту.
+
+![Register success](screenshots/frontend_register_success.png)
+
+### 4. Отправка ключа через Celery
+
+Отправка письма с ключом выполняется асинхронно через Celery. Для демонстрации используется console email backend, поэтому письмо выводится в логах контейнера Celery.
+
+![Celery email](screenshots/celery_sent_key_email.png)
+
+### 5. Авторизация и личный кабинет
+
+После входа пользователь попадает в личный кабинет, где может посмотреть текущий ключ активации, обновить его и изменить пароль.
+
+![Login page](screenshots/frontend_login.png)
+
+![Profile page](screenshots/frontend_profile.png)
+
+### 6. Обновление ключа активации
+
+Пользователь может обновить ключ. Старый ключ становится недействительным, генерируется новый ключ и отправляется пользователю.
+
+![Key refresh](screenshots/frontend_key_refresh.png)
+
+### 7. Смена пароля
+
+В личном кабинете реализована возможность смены пароля.
+
+![Change password success](screenshots/frontend_change_password_success.png)
+
+### 8. Десктопное приложение
+
+Десктопное приложение позволяет ввести ключ активации и подключиться к свободному прокси-серверу.
+
+![Desktop app](screenshots/desktop_panel.png)
+
+После успешной активации backend возвращает данные свободной виртуальной машины, а desktop-клиент отображает статус подключения.
+
+![Desktop connected](screenshots/desktop_connected.png)
+
+Если свободных виртуальных машин нет, пользователь получает понятную ошибку.
+
+![No free virtual machines](screenshots/desktop_no_free_vms.png)
+
+### 9. Административная панель
+
+В Django admin можно просматривать пользователей, виртуальные машины и историю подключений.
+
+![Admin users](screenshots/django_admin_users.png)
+
+![Admin virtual machines](screenshots/django_admin_virtual_machines.png)
+
+![Admin connection history](screenshots/django_admin_connections_history.png)
+
+### 10. Backend-тесты
+
+Backend покрыт тестами. Тесты проверяют регистрацию, авторизацию, работу ключей активации, распределение виртуальных машин и обработку ошибок.
+
+![Backend tests](screenshots/backend_tests_passed.png)
 
 Ключевая бизнес-логика покрыта backend-тестами.
